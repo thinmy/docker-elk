@@ -14,6 +14,8 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      VIRTUAL_HOST: ${VIRUTAL_HOST_ES}
+      VIRTUAL_PORT: ${VIRUTAL_PORT_ES}
     networks:
       - elk
 
@@ -30,6 +32,8 @@ services:
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      VIRTUAL_HOST: ${VIRUTAL_HOST_LS}
+      VIRTUAL_PORT: ${VIRUTAL_PORT_LS}
     networks:
       - elk
     depends_on:
@@ -48,8 +52,14 @@ services:
       - elk
     depends_on:
       - elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      VIRTUAL_HOST: ${VIRUTAL_HOST_KB}
+      VIRTUAL_PORT: ${VIRUTAL_PORT_KB}
 
 networks:
-
+  default:
+    external:
+      name: nginx-proxy
   elk:
     driver: bridge
